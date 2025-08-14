@@ -4,74 +4,53 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Welcome to Quahog!</title>
-    
-    <!-- Tailwind CSS for utility classes -->
     <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Google Fonts for that Family Guy feel -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Inter:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        /* Custom font class */
-        .font-family-guy {
-            font-family: 'Luckiest Guy', cursive;
-        }
-
-        /* * This is the core style for your background.
-         * It targets the 'body' element and applies the background image.
-         * The URL 'awesomefamilyguy.jpg' assumes the image is in the same root folder as this HTML file.
-        */
+        .font-family-guy { font-family: 'Luckiest Guy', cursive; }
         body {
-            /* Set the background image */
             background-image: url('awesomefamilyguy.jpg');
-
-            /* Fallback color in case the image doesn't load */
-            background-color: #0d47a1; /* A dark blue */
-
-            /* Make the background image cover the entire page */
+            background-color: #0d47a1;
             background-size: cover;
-
-            /* Center the image */
             background-position: center;
-
-            /* Prevent the image from tiling */
             background-repeat: no-repeat;
-
-            /* Fix the background so it doesn't scroll with content */
             background-attachment: fixed;
-
-            /* Ensure the body is at least the full height of the screen */
             min-height: 100vh;
+            font-family: 'Inter', sans-serif;
         }
     </style>
 </head>
 <body class="text-white">
 
-    <!-- 
-      This div acts as a container for your content.
-      The semi-transparent black background helps make the text readable against the background image.
-      You can adjust the opacity (bg-black/50) to be more or less transparent.
-    -->
-    <div class="flex flex-col items-center justify-center min-h-screen bg-black/50 p-6">
+    <div class="flex flex-col min-h-screen bg-black/60">
         
-        <header class="text-center">
-            <h1 class="text-6xl md:text-8xl font-family-guy text-yellow-400" style="text-shadow: 3px 3px 0 #000;">
-                Family Guy Fan Page
-            </h1>
-            <p class="mt-4 text-xl md:text-2xl text-gray-200">
-                Freakin' Sweet!
-            </p>
-        </header>
+        <!-- Navigation Bar -->
+        <nav class="bg-black/30 backdrop-blur-sm shadow-lg">
+            <div class="container mx-auto px-6 py-3 flex justify-center items-center">
+                <ul class="flex space-x-6">
+                    <li><a href="index.html" class="text-lg text-yellow-300 hover:text-white font-bold transition duration-300">Home</a></li>
+                    <!-- This link now points to the correct path inside the 'episodes' folder -->
+                    <li><a href="episodes/episodes.html" class="text-lg text-yellow-300 hover:text-white font-bold transition duration-300">Episodes</a></li>
+                    <!-- Add links to other pages as you create them -->
+                </ul>
+            </div>
+        </nav>
 
-        <!-- You can start adding more content here! -->
-        <main class="mt-12">
-            <!-- Example: <p>Your content goes here.</p> -->
-        </main>
+        <!-- Main Content -->
+        <div class="flex-grow flex flex-col items-center justify-center p-6 text-center">
+            <header>
+                <h1 class="text-6xl md:text-8xl font-family-guy text-yellow-400" style="text-shadow: 3px 3px 0 #000;">
+                    Family Guy Fan Page
+                </h1>
+                <p class="mt-4 text-xl md:text-2xl text-gray-200">
+                    Freakin' Sweet!
+                </p>
+            </header>
+        </div>
 
     </div>
 
 </body>
 </html>
-
