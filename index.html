@@ -31,7 +31,6 @@
             <div class="container mx-auto px-6 py-3 flex justify-center items-center">
                 <ul class="flex space-x-6">
                     <li><a href="index.html" class="text-lg text-yellow-300 hover:text-white font-bold transition duration-300">Home</a></li>
-                    <!-- The Episodes link has been removed -->
                 </ul>
             </div>
         </nav>
@@ -47,8 +46,61 @@
                 </p>
             </header>
         </div>
-
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- Configuration ---
+            // Set the chance of the alert appearing. 0.25 = 25% chance.
+            const CHANCE_TO_APPEAR = 0.25;
+
+            // Function to open a new popup window
+            function openPeterPopup() {
+                const popupContent = `
+                    <!DOCTYPE html>
+                    <html lang="en">
+                    <head>
+                        <title>Peter Alert</title> <!-- Title is set here -->
+                        <script src="https://cdn.tailwindcss.com"><\/script>
+                        <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap" rel="stylesheet">
+                        <style>
+                            body { text-align: center; padding: 1rem; font-family: sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; margin: 0; }
+                            .font-family-guy { font-family: 'Luckiest Guy', cursive; }
+                        </style>
+                    </head>
+                    <body class="bg-gray-100">
+                        <h1 class="text-3xl font-family-guy text-blue-800">PETER ALERT!</h1>
+                        
+                        <!-- Image is added here -->
+                        <img src="peteralert.png" alt="Peter Griffin" class="my-4 w-32 h-32 object-contain">
+                        
+                        <p class="text-gray-800">Heheheheheheh... Giggity.</p>
+                        
+                        <button onclick="window.close()" class="mt-4 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-lg shadow-md">
+                            Shut up, Peter.
+                        </button>
+                    </body>
+                    </html>
+                `;
+
+                // Most modern browsers will block this popup because it was not triggered
+                // by a direct user action (like a click).
+                const peterWindow = window.open('', 'PeterAlert', 'width=400,height=350,resizable=yes');
+                
+                if (peterWindow) {
+                    peterWindow.document.write(popupContent);
+                    peterWindow.document.close();
+                } else {
+                    console.log("Peter Alert was blocked by the browser. This is expected behavior for popups not triggered by a user click.");
+                }
+            }
+
+            // Check if we should show the alert based on the chance
+            if (Math.random() < CHANCE_TO_APPEAR) {
+                openPeterPopup();
+            }
+        });
+    </script>
 
 </body>
 </html>
