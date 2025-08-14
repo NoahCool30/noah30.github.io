@@ -60,32 +60,115 @@
                     <!DOCTYPE html>
                     <html lang="en">
                     <head>
-                        <title>Peter Alert</title> <!-- Title is set here -->
+                        <title>Peter Alert</title>
                         <script src="https://cdn.tailwindcss.com"><\/script>
                         <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap" rel="stylesheet">
                         <style>
-                            body { text-align: center; padding: 1rem; font-family: sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; margin: 0; }
+                            body { 
+                                margin: 0; 
+                                font-family: sans-serif; 
+                                background-color: #f3f4f6; /* bg-gray-100 */
+                                position: relative;
+                                color: #1f2937; /* text-gray-800 */
+                                transition: color 0.5s ease;
+                            }
                             .font-family-guy { font-family: 'Luckiest Guy', cursive; }
+                            
+                            /* The black overlay that will fade in */
+                            #black-overlay {
+                                position: fixed;
+                                top: 0;
+                                left: 0;
+                                width: 100%;
+                                height: 100%;
+                                background-color: black;
+                                opacity: 0;
+                                pointer-events: none; /* Allows clicking/scrolling through it */
+                                z-index: -1;
+                            }
+
+                            /* Container for the initial content */
+                            .content-section {
+                                height: 100vh;
+                                display: flex;
+                                flex-direction: column;
+                                align-items: center;
+                                justify-content: center;
+                                text-align: center;
+                                padding: 1rem;
+                            }
+
+                            /* Container for the final image */
+                            #final-image-container {
+                                height: 100vh;
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                                opacity: 0;
+                                transition: opacity 0.5s ease-in-out;
+                            }
+
+                            /* An empty div to create the scrollable space */
+                            #scroll-spacer {
+                                height: 100vh; /* This controls the total scroll length */
+                            }
                         </style>
                     </head>
-                    <body class="bg-gray-100">
-                        <h1 class="text-3xl font-family-guy text-blue-800">PETER ALERT!</h1>
-                        
-                        <!-- Image is added here -->
-                        <img src="peteralert.png" alt="Peter Griffin" class="my-4 w-32 h-32 object-contain">
-                        
-                        <p class="text-gray-800">Heheheheheheh... Giggity.</p>
-                        
-                        <button onclick="window.close()" class="mt-4 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-lg shadow-md">
-                            Shut up, Peter.
-                        </button>
+                    <body>
+                        <div id="black-overlay"></div>
+
+                        <div class="content-section">
+                            <h1 class="text-3xl font-family-guy text-blue-800">PETER ALERT!</h1>
+                            <img src="peteralert.png" alt="Peter Griffin" class="my-4 w-32 h-32 object-contain">
+                            <p>Heheheheheheh... Giggity.</p>
+                            <button onclick="window.close()" class="mt-4 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-lg shadow-md">
+                                Shut up, Peter.
+                            </button>
+                            <p class="mt-8 text-gray-500 animate-pulse">Scroll down...</p>
+                        </div>
+
+                        <div id="scroll-spacer"></div>
+
+                        <div id="final-image-container">
+                            <img src="trashdump.png" alt="A trash dumpster in an alley." class="max-w-xs w-full">
+                        </div>
+
+                        <script>
+                            const overlay = document.getElementById('black-overlay');
+                            const finalImage = document.getElementById('final-image-container');
+                            const body = document.body;
+                            
+                            window.addEventListener('scroll', () => {
+                                // Calculate how far down the page we've scrolled (0.0 to 1.0)
+                                const scrollTop = window.scrollY;
+                                const docHeight = document.documentElement.scrollHeight;
+                                const winHeight = window.innerHeight;
+                                const scrollPercent = scrollTop / (docHeight - winHeight);
+                                
+                                // Use the scroll percentage to set the overlay's opacity
+                                overlay.style.opacity = scrollPercent;
+
+                                // As the background gets dark, change the text color to white for readability
+                                if (scrollPercent > 0.6) {
+                                    body.style.color = 'white';
+                                } else {
+                                    body.style.color = '#1f2937';
+                                }
+
+                                // When we're very close to the bottom, fade in the final image
+                                if (scrollPercent > 0.95) {
+                                    finalImage.style.opacity = 1;
+                                } else {
+                                    finalImage.style.opacity = 0;
+                                }
+                            });
+                        <\/script>
                     </body>
                     </html>
                 `;
 
-                // Most modern browsers will block this popup because it was not triggered
-                // by a direct user action (like a click).
-                const peterWindow = window.open('', 'PeterAlert', 'width=400,height=350,resizable=yes');
+                // Increased the height to allow for more scrolling room
+                const peterWindow = window.open('', 'PeterAlert', 'width=500,height=600,resizable=yes,scrollbars=yes');
                 
                 if (peterWindow) {
                     peterWindow.document.write(popupContent);
