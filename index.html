@@ -147,7 +147,10 @@
                                 const scrollPercent = scrollTop / (docHeight - winHeight);
                                 
                                 // Fade out the initial content as you start scrolling
-                                const fadeOutThreshold = 0.15; // Fades out over the first 15% of the scroll
+                                // I've lowered this value from 0.15 to 0.05.
+                                // This means the fade-out effect happens over a much smaller (later) portion of the scroll,
+                                // keeping the Peter alert on screen for longer.
+                                const fadeOutThreshold = 0.05; 
                                 if (scrollPercent < fadeOutThreshold) {
                                     let opacity = 1 - (scrollPercent / fadeOutThreshold);
                                     contentSection.style.opacity = opacity;
