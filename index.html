@@ -67,27 +67,23 @@
                             body { 
                                 margin: 0; 
                                 font-family: sans-serif; 
-                                background-color: #f3f4f6; /* bg-gray-100 */
+                                background-color: #f3f4f6;
                                 position: relative;
-                                color: #1f2937; /* text-gray-800 */
+                                color: #1f2937;
                                 transition: color 0.5s ease;
                             }
                             .font-family-guy { font-family: 'Luckiest Guy', cursive; }
                             
-                            /* The black overlay that will fade in */
                             #black-overlay {
                                 position: fixed;
-                                top: 0;
-                                left: 0;
-                                width: 100%;
-                                height: 100%;
+                                top: 0; left: 0;
+                                width: 100%; height: 100%;
                                 background-color: black;
                                 opacity: 0;
-                                pointer-events: none; /* Allows clicking/scrolling through it */
+                                pointer-events: none;
                                 z-index: -1;
                             }
 
-                            /* Container for the initial content */
                             .content-section {
                                 height: 100vh;
                                 display: flex;
@@ -96,9 +92,14 @@
                                 justify-content: center;
                                 text-align: center;
                                 padding: 1rem;
+                                /* This makes the initial content stay on screen */
+                                position: fixed;
+                                top: 0; left: 0;
+                                width: 100%;
+                                transition: opacity 0.3s ease-out;
+                                z-index: 10;
                             }
 
-                            /* Container for the final image */
                             #final-image-container {
                                 height: 100vh;
                                 display: flex;
@@ -108,9 +109,9 @@
                                 transition: opacity 0.5s ease-in-out;
                             }
 
-                            /* An empty div to create the scrollable space */
+                            /* Increased height for a much longer scroll */
                             #scroll-spacer {
-                                height: 100vh; /* This controls the total scroll length */
+                                height: 500vh; 
                             }
                         </style>
                     </head>
@@ -124,7 +125,7 @@
                             <button onclick="window.close()" class="mt-4 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-lg shadow-md">
                                 Shut up, Peter.
                             </button>
-                            <p class="mt-8 text-gray-500 animate-pulse">Scroll down...</p>
+                            <!-- "Scroll down" text has been removed -->
                         </div>
 
                         <div id="scroll-spacer"></div>
@@ -136,19 +137,30 @@
                         <script>
                             const overlay = document.getElementById('black-overlay');
                             const finalImage = document.getElementById('final-image-container');
+                            const contentSection = document.querySelector('.content-section');
                             const body = document.body;
                             
                             window.addEventListener('scroll', () => {
-                                // Calculate how far down the page we've scrolled (0.0 to 1.0)
                                 const scrollTop = window.scrollY;
                                 const docHeight = document.documentElement.scrollHeight;
                                 const winHeight = window.innerHeight;
                                 const scrollPercent = scrollTop / (docHeight - winHeight);
                                 
-                                // Use the scroll percentage to set the overlay's opacity
+                                // Fade out the initial content as you start scrolling
+                                const fadeOutThreshold = 0.15; // Fades out over the first 15% of the scroll
+                                if (scrollPercent < fadeOutThreshold) {
+                                    let opacity = 1 - (scrollPercent / fadeOutThreshold);
+                                    contentSection.style.opacity = opacity;
+                                    contentSection.style.pointerEvents = opacity < 0.1 ? 'none' : 'auto';
+                                } else {
+                                    contentSection.style.opacity = 0;
+                                    contentSection.style.pointerEvents = 'none';
+                                }
+
+                                // Fade in the black overlay
                                 overlay.style.opacity = scrollPercent;
 
-                                // As the background gets dark, change the text color to white for readability
+                                // As the background gets dark, change the body text color to white
                                 if (scrollPercent > 0.6) {
                                     body.style.color = 'white';
                                 } else {
@@ -156,7 +168,7 @@
                                 }
 
                                 // When we're very close to the bottom, fade in the final image
-                                if (scrollPercent > 0.95) {
+                                if (scrollPercent > 0.98) {
                                     finalImage.style.opacity = 1;
                                 } else {
                                     finalImage.style.opacity = 0;
@@ -167,7 +179,6 @@
                     </html>
                 `;
 
-                // Increased the height to allow for more scrolling room
                 const peterWindow = window.open('', 'PeterAlert', 'width=500,height=600,resizable=yes,scrollbars=yes');
                 
                 if (peterWindow) {
