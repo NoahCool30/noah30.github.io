@@ -12,7 +12,7 @@
         .font-family-guy { font-family: 'Luckiest Guy', cursive; }
         body {
             background-image: url('awesomefamilyguy.jpg');
-            background-color: #0d47a1;
+            background-color: #0d4_7a1;
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -146,11 +146,10 @@
                                 const winHeight = window.innerHeight;
                                 const scrollPercent = scrollTop / (docHeight - winHeight);
                                 
-                                // Fade out the initial content as you start scrolling
-                                // I've lowered this value from 0.15 to 0.05.
-                                // This means the fade-out effect happens over a much smaller (later) portion of the scroll,
-                                // keeping the Peter alert on screen for longer.
-                                const fadeOutThreshold = 0.05; 
+                                // Fade out the initial content as you start scrolling.
+                                // I've increased this value significantly. The fade out will now happen
+                                // over the first 45% of the total scroll distance, making it last much longer.
+                                const fadeOutThreshold = 0.45; 
                                 if (scrollPercent < fadeOutThreshold) {
                                     let opacity = 1 - (scrollPercent / fadeOutThreshold);
                                     contentSection.style.opacity = opacity;
