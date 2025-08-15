@@ -109,7 +109,6 @@
                             }
 
                             #scroll-spacer {
-                                /* Increased height by 5x for a much longer scroll */
                                 height: 2500vh; 
                             }
                         </style>
@@ -129,7 +128,10 @@
                         <div id="scroll-spacer"></div>
 
                         <div id="final-image-container">
-                            <img src="trashdump.png" alt="A trash dumpster in an alley." class="max-w-xs w-full">
+                            <!-- The image is now wrapped in a link that opens a new tab -->
+                            <a href="???/" target="_blank" rel="noopener noreferrer">
+                                <img src="trashdump.png" alt="A trash dumpster in an alley." class="max-w-xs w-full cursor-pointer hover:scale-105 transition-transform duration-300">
+                            </a>
                         </div>
 
                         <script>
@@ -144,22 +146,17 @@
                                 const winHeight = window.innerHeight;
                                 const scrollPercent = scrollTop / (docHeight - winHeight);
 
-                                // --- NEW LOGIC FOR "FROZEN" EFFECT ---
-                                // Nothing will happen for the first 30% of the scroll.
                                 const scrollThreshold = 0.3;
 
                                 if (scrollPercent < scrollThreshold) {
-                                    // Keep everything looking static and un-scrolled
                                     overlay.style.opacity = 0;
                                     contentSection.style.opacity = 1;
-                                    return; // Exit the function early
+                                    return;
                                 }
                                 
-                                // Calculate the progress *after* the frozen threshold has been passed.
                                 const effectiveScrollPercent = (scrollPercent - scrollThreshold) / (1 - scrollThreshold);
 
-                                // Fade out the initial content based on the new effective scroll
-                                const fadeOutThreshold = 0.3; // Fades out over the first 30% of the *effective* scroll
+                                const fadeOutThreshold = 0.3;
                                 if (effectiveScrollPercent < fadeOutThreshold) {
                                     let opacity = 1 - (effectiveScrollPercent / fadeOutThreshold);
                                     contentSection.style.opacity = opacity;
@@ -169,17 +166,14 @@
                                     contentSection.style.pointerEvents = 'none';
                                 }
 
-                                // Fade in the black overlay
                                 overlay.style.opacity = effectiveScrollPercent;
 
-                                // As the background gets dark, change the body text color to white
                                 if (effectiveScrollPercent > 0.5) {
                                     body.style.color = 'white';
                                 } else {
                                     body.style.color = '#1f2937';
                                 }
 
-                                // When we're very close to the bottom, fade in the final image
                                 if (scrollPercent > 0.98) {
                                     finalImage.style.opacity = 1;
                                 } else {
