@@ -13,8 +13,10 @@
             /* A fallback black color in case the image fails to load */
             background-color: #000000;
             
-            /* Ensures the image covers the entire screen without repeating */
-            background-size: cover;
+            /* FIXED: 'contain' scales the image to fit within the container without cropping or stretching it.
+               This prevents the distortion you were seeing.
+            */
+            background-size: contain;
             
             /* Centers the image on the page */
             background-position: center;
