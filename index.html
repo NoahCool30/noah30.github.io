@@ -12,7 +12,7 @@
         .font-family-guy { font-family: 'Luckiest Guy', cursive; }
         body {
             background-image: url('awesomefamilyguy.jpg');
-            background-color: #0d4_7a1;
+            background-color: #0d47a1;
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -92,11 +92,10 @@
                                 justify-content: center;
                                 text-align: center;
                                 padding: 1rem;
-                                /* This makes the initial content stay on screen */
                                 position: fixed;
                                 top: 0; left: 0;
                                 width: 100%;
-                                transition: opacity 0.3s ease-out;
+                                transition: opacity 0.5s ease-out;
                                 z-index: 10;
                             }
 
@@ -109,7 +108,6 @@
                                 transition: opacity 0.5s ease-in-out;
                             }
 
-                            /* Increased height for a much longer scroll */
                             #scroll-spacer {
                                 height: 500vh; 
                             }
@@ -125,7 +123,6 @@
                             <button onclick="window.close()" class="mt-4 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-lg shadow-md">
                                 Shut up, Peter.
                             </button>
-                            <!-- "Scroll down" text has been removed -->
                         </div>
 
                         <div id="scroll-spacer"></div>
@@ -145,13 +142,25 @@
                                 const docHeight = document.documentElement.scrollHeight;
                                 const winHeight = window.innerHeight;
                                 const scrollPercent = scrollTop / (docHeight - winHeight);
+
+                                // --- NEW LOGIC FOR "FROZEN" EFFECT ---
+                                // Nothing will happen for the first 30% of the scroll.
+                                const scrollThreshold = 0.3;
+
+                                if (scrollPercent < scrollThreshold) {
+                                    // Keep everything looking static and un-scrolled
+                                    overlay.style.opacity = 0;
+                                    contentSection.style.opacity = 1;
+                                    return; // Exit the function early
+                                }
                                 
-                                // Fade out the initial content as you start scrolling.
-                                // I've increased this value significantly. The fade out will now happen
-                                // over the first 45% of the total scroll distance, making it last much longer.
-                                const fadeOutThreshold = 0.45; 
-                                if (scrollPercent < fadeOutThreshold) {
-                                    let opacity = 1 - (scrollPercent / fadeOutThreshold);
+                                // Calculate the progress *after* the frozen threshold has been passed.
+                                const effectiveScrollPercent = (scrollPercent - scrollThreshold) / (1 - scrollThreshold);
+
+                                // Fade out the initial content based on the new effective scroll
+                                const fadeOutThreshold = 0.3; // Fades out over the first 30% of the *effective* scroll
+                                if (effectiveScrollPercent < fadeOutThreshold) {
+                                    let opacity = 1 - (effectiveScrollPercent / fadeOutThreshold);
                                     contentSection.style.opacity = opacity;
                                     contentSection.style.pointerEvents = opacity < 0.1 ? 'none' : 'auto';
                                 } else {
@@ -160,10 +169,10 @@
                                 }
 
                                 // Fade in the black overlay
-                                overlay.style.opacity = scrollPercent;
+                                overlay.style.opacity = effectiveScrollPercent;
 
                                 // As the background gets dark, change the body text color to white
-                                if (scrollPercent > 0.6) {
+                                if (effectiveScrollPercent > 0.5) {
                                     body.style.color = 'white';
                                 } else {
                                     body.style.color = '#1f2937';
