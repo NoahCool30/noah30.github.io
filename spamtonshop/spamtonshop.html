@@ -20,15 +20,16 @@
     <!-- Main container that organizes the shop and textbox -->
     <div class="h-screen w-screen flex flex-col">
         <!-- Shop image container -->
-        <!-- This div will now grow to fill available space -->
-        <div class="flex-grow relative">
-            <!-- The image is now positioned absolutely within the container -->
-            <!-- object-cover will make it fill the space, cropping if necessary, but not distorting -->
-            <img src="shop.png" alt="Spamton's Shop" class="absolute top-0 left-0 w-full h-full object-cover">
+        <!-- This div will now grow to fill the available vertical space -->
+        <div class="flex-grow flex items-center justify-center overflow-hidden p-4">
+            <!-- object-contain ensures the entire image is visible without distortion -->
+            <img src="shop.png" alt="Spamton's Shop" class="max-w-full max-h-full object-contain">
         </div>
         <!-- Textbox image container -->
-        <div class="flex-shrink-0 flex justify-center items-end p-4">
-            <img src="textbox.png" alt="Dialogue Box" class="w-full max-w-4xl">
+        <!-- This container has a fixed height, ensuring layout consistency -->
+        <div class="flex-shrink-0 flex justify-center items-center h-[180px] p-4">
+            <!-- The textbox image scales based on the container's height, maintaining its aspect ratio -->
+            <img src="textbox.png" alt="Dialogue Box" class="h-full w-auto max-w-4xl">
         </div>
     </div>
 
@@ -36,7 +37,7 @@
     <audio autoplay loop style="display:none;">
         <source src="Dialtone.flac" type="audio/flac">
         Your browser does not support the audio element.
-    </audio>
+    </agudio>
 
 </body>
 </html>
