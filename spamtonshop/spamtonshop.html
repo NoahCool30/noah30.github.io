@@ -16,37 +16,38 @@
             /* This is critical: it prevents the page itself from ever scrolling */
             overflow: hidden;
         }
-        /* This is the main layout container */
-        .shop-container {
-            /* Make the container fill the entire screen */
-            height: 100vh;
-            width: 100vw;
-            /* Use flexbox to stack the shop and textbox vertically */
-            display: flex;
-            flex-direction: column;
+
+        /* This is the main container that will hold the entire layout.
+           It uses CSS Grid to create two rows. */
+        .grid-container {
+            display: grid;
+            /* The top row (shop) will take up all available space.
+               The bottom row (textbox) has a fixed height. */
+            grid-template-rows: 1fr 180px; 
+            height: 100vh; /* Fill the entire screen height */
+            width: 100vw;  /* Fill the entire screen width */
         }
+
         /* This is the container for the top image (the shop) */
-        .shop-image-area {
-            /* This makes the shop area take up all available space */
-            flex-grow: 1;
-            /* This is needed to handle the image sizing correctly */
-            position: relative;
+        .shop-area {
+            position: relative; /* Needed for the image positioning */
         }
+
         /* This is the container for the bottom image (the textbox) */
-        .textbox-image-area {
-            /* Give the textbox a fixed height to maintain proportions */
-            flex-shrink: 0;
-            height: 180px; 
-            position: relative;
+        .textbox-area {
+            position: relative; /* Needed for the image positioning */
         }
-        /* This style applies to both images */
+
+        /* This style applies to BOTH images */
         .fit-image {
-            /* Position the image within its container */
+            /* Position the image in the center of its container */
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            /* Ensure the image scales down to fit, but never gets stretched or cropped */
+
+            /* This is the key: the image will scale down to fit inside
+               its container without being stretched or cropped. */
             max-width: 100%;
             max-height: 100%;
             object-fit: contain;
@@ -55,15 +56,15 @@
 </head>
 <body>
 
-    <!-- Main container for the layout -->
-    <div class="shop-container">
-        <!-- The shop image area -->
-        <div class="shop-image-area">
+    <!-- Main container using the new grid layout -->
+    <div class="grid-container">
+        <!-- The shop image area (top row) -->
+        <div class="shop-area">
             <img src="shop.png" alt="Spamton's Shop" class="fit-image">
         </div>
         
-        <!-- The textbox image area -->
-        <div class="textbox-image-area">
+        <!-- The textbox image area (bottom row) -->
+        <div class="textbox-area">
             <img src="textbox.png" alt="Dialogue Box" class="fit-image">
         </div>
     </div>
@@ -72,7 +73,7 @@
     <audio autoplay loop style="display:none;">
         <source src="Dialtone.flac" type="audio/flac">
         Your browser does not support the audio element.
-    </audio>
+    </agudio>
 
 </body>
 </html>
