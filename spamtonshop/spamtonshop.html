@@ -11,51 +11,36 @@
     <style>
         body {
             font-family: 'VT323', monospace;
-            overflow: hidden; /* Prevents scrollbars from appearing */
             margin: 0;
-        }
-        /* A robust CSS Grid layout for the entire page */
-        .shop-layout {
-            display: grid;
-            /* The top row (shop) takes up all available space. */
-            /* The bottom row (textbox) is fixed at 180px height. */
-            grid-template-rows: 1fr 180px;
-            height: 100vh;
-            width: 100vw;
             background-color: black;
+            /* Allow vertical scrolling if content is too tall, but hide horizontal scrollbar */
+            overflow-y: auto;
+            overflow-x: hidden;
         }
-        .shop-background-container {
-            /* This is the container for the shop image */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden; /* Prevents any overflow issues */
-            padding: 1rem; /* Adds some spacing around the image */
+        /* This container will hold our vertical stack of images */
+        .image-stack {
+            width: 100%;
         }
-        .textbox-container {
-            /* This is the container for the textbox image */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 1rem; /* Adds some spacing around the image */
+        /* Style for both images */
+        .full-width-img {
+            /* Force the image to take up the full width of the screen */
+            width: 100%;
+            /* Allow the height to adjust automatically to maintain aspect ratio */
+            height: auto;
+            /* Ensures images stack vertically without extra space */
+            display: block;
         }
     </style>
 </head>
 <body>
 
-    <!-- Main container using the new grid layout -->
-    <div class="shop-layout">
-
-        <!-- Top Grid Cell: Shop Background -->
-        <div class="shop-background-container">
-             <img src="shop.png" alt="Spamton's Shop" class="max-w-full max-h-full object-contain">
-        </div>
-
-        <!-- Bottom Grid Cell: Textbox -->
-        <div class="textbox-container">
-            <img src="textbox.png" alt="Dialogue Box" class="h-full w-auto">
-        </div>
-
+    <!-- Main container for the images -->
+    <div class="image-stack">
+        <!-- The shop image will always be 100% width -->
+        <img src="shop.png" alt="Spamton's Shop" class="full-width-img">
+        
+        <!-- The textbox image will also always be 100% width, placed directly below -->
+        <img src="textbox.png" alt="Dialogue Box" class="full-width-img">
     </div>
 
     <!-- Hidden audio player that will attempt to autoplay and loop -->
