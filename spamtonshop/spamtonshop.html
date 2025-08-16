@@ -47,27 +47,31 @@
             font-size: 32px; /* Adjust size as needed */
             text-shadow: 2px 2px #000;
             position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 85%; /* Give the text some padding inside the box */
-            height: 80%;
-            display: flex;
-            align-items: flex-start; /* Align text to the top */
+            
+            /* --- FIXED POSITIONING --- */
+            /* Removed the centering logic */
+            /* Position the text from the top-left corner */
+            top: 25px;
+            left: 45px;
+            /* Set the width and height to prevent overflow */
+            width: calc(100% - 90px);
+            height: calc(100% - 50px);
+            
+            /* Allows for proper word wrapping */
+            white-space: pre-wrap;
+            word-wrap: break-word;
         }
 
     </style>
 </head>
 <body>
     
-    <!-- The "CLICK HERE, KID!" overlay has been removed. -->
-
     <!-- Main container for the images that our script will control -->
     <div id="layout-container">
         <img src="shop.png" alt="Spamton's Shop" class="full-width-img">
         <div class="textbox-wrapper">
             <img src="textbox.png" alt="Dialogue Box" class="full-width-img">
-            <p id="dialogue">* </p>
+            <p id="dialogue"></p>
         </div>
     </div>
 
@@ -100,8 +104,8 @@
         // Function to type out a sentence character by character
         function typeSentence() {
             if (charIndex < sentences[sentenceIndex].length) {
-                // Add the asterisk only for the first character
-                dialogueElement.innerHTML = '* ' + sentences[sentenceIndex].substring(0, charIndex + 1);
+                // Set the text content with the asterisk
+                dialogueElement.textContent = '* ' + sentences[sentenceIndex].substring(0, charIndex + 1);
                 charIndex++;
                 setTimeout(typeSentence, 60); // Adjust typing speed here (milliseconds)
             } else {
@@ -109,7 +113,7 @@
                 setTimeout(() => {
                     charIndex = 0;
                     sentenceIndex = (sentenceIndex + 1) % sentences.length; // Loop back to the start
-                    dialogueElement.innerHTML = '* ';
+                    dialogueElement.textContent = '* ';
                     typeSentence();
                 }, 2500); // Delay between sentences
             }
