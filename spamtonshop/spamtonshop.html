@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale-1.0">
     <title>[[Hyperlink Blocked]]</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -17,27 +17,26 @@
 </head>
 <body class="bg-black">
 
-    <!-- Main container that organizes the shop and textbox -->
-    <div class="h-screen w-screen flex flex-col">
-        <!-- Shop image container -->
-        <!-- This div will now grow to fill the available vertical space -->
-        <div class="flex-grow flex items-center justify-center overflow-hidden p-4">
-            <!-- object-contain ensures the entire image is visible without distortion -->
-            <img src="shop.png" alt="Spamton's Shop" class="max-w-full max-h-full object-contain">
-        </div>
-        <!-- Textbox image container -->
-        <!-- This container has a fixed height, ensuring layout consistency -->
-        <div class="flex-shrink-0 flex justify-center items-center h-[180px] p-4">
-            <!-- The textbox image scales based on the container's height, maintaining its aspect ratio -->
+    <!-- Main container for positioning -->
+    <div class="relative h-screen w-screen">
+
+        <!-- Textbox container, absolutely positioned at the bottom -->
+        <div class="absolute bottom-0 left-0 right-0 h-[180px] flex justify-center items-center p-4 z-10">
             <img src="textbox.png" alt="Dialogue Box" class="h-full w-auto max-w-4xl">
         </div>
+
+        <!-- Shop image container, absolutely positioned to fill the space ABOVE the textbox -->
+        <div class="absolute top-0 left-0 right-0 bottom-[180px] flex items-center justify-center p-4">
+             <img src="shop.png" alt="Spamton's Shop" class="max-w-full max-h-full object-contain">
+        </div>
+
     </div>
 
     <!-- Hidden audio player that will attempt to autoplay and loop -->
     <audio autoplay loop style="display:none;">
         <source src="Dialtone.flac" type="audio/flac">
         Your browser does not support the audio element.
-    </agudio>
+    </audio>
 
 </body>
 </html>
