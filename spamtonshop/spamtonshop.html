@@ -9,73 +9,132 @@
     <link rel="preconnect" href="https://fonts.gstatic" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
     <style>
+        /* This loads the custom Determination Mono font */
+        @font-face {
+            font-family: 'Determination Mono Web';
+            src: url('https://raw.githubusercontent.com/so-hard-to-think-of-a-name/determination-mono-web-font/master/fonts/DeterminationMonoWeb.woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+        }
+
         body {
             font-family: 'VT323', monospace;
             margin: 0;
             background-color: black;
-            /* Hide scrollbars on the main page */
             overflow: hidden;
         }
 
-        /* This container holds the entire visual layout */
         #layout-container {
-            /* This will be used by JavaScript to scale the content down if it's too tall */
             transform-origin: top center;
             width: 100%;
         }
 
-        /* This style applies to both images */
         .full-width-img {
-            /* This is the part of the layout you liked: images always fill the width */
             width: 100%;
             height: auto;
-            display: block; /* Removes extra space below images */
+            display: block;
         }
+        
+        /* This container holds the textbox and the dialogue text on top of it */
+        .textbox-wrapper {
+            position: relative;
+        }
+
+        /* This is where the dialogue text will be displayed */
+        #dialogue {
+            font-family: 'Determination Mono Web', 'VT323', monospace;
+            color: white;
+            font-size: 32px; /* Adjust size as needed */
+            text-shadow: 2px 2px #000;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 85%; /* Give the text some padding inside the box */
+            height: 80%;
+            display: flex;
+            align-items: flex-start; /* Align text to the top */
+        }
+
     </style>
 </head>
 <body>
+    
+    <!-- The "CLICK HERE, KID!" overlay has been removed. -->
 
     <!-- Main container for the images that our script will control -->
     <div id="layout-container">
         <img src="shop.png" alt="Spamton's Shop" class="full-width-img">
-        <img src="textbox.png" alt="Dialogue Box" class="full-width-img">
+        <div class="textbox-wrapper">
+            <img src="textbox.png" alt="Dialogue Box" class="full-width-img">
+            <p id="dialogue">* </p>
+        </div>
     </div>
 
     <!-- Hidden audio player -->
-    <audio autoplay loop style="display:none;">
+    <audio id="background-audio" loop style="display:none;">
         <source src="Dialtone.flac" type="audio/flac">
         Your browser does not support the audio element.
     </audio>
 
     <script>
-        // This script ensures the layout always fits on the screen without scrollbars.
-        
         const layoutContainer = document.getElementById('layout-container');
+        const dialogueElement = document.getElementById('dialogue');
+        const backgroundAudio = document.getElementById('background-audio');
 
-        function fitLayoutToScreen() {
-            // First, reset any scaling to measure the natural size.
-            layoutContainer.style.transform = 'scale(1)';
+        // An array of Spamton's iconic lines
+        const sentences = [
+            "HEY EVERY         !",
+            "IT'S ME!!",
+            "EV3RY BUDDY 'S FAVORITE [[Number 1 Rated Salesman1997]]",
+            "SPAMTON G. SPAMTON!!",
+            "WOAH!! IF IT ISN'T A... LIGHT nER!",
+            "ARE YOU LOOKING FOR THE [Sweet], [Sweet] TASTE OF [Freedom]?",
+            "WELL YOU'VE COME TO THE RIGHT [[Shop]]!!",
+            "I'VE GOT THE DEALS THAT'LL MAKE YOU [[Die]]!!"
+        ];
 
-            // Get the natural height of the content (how tall it *wants* to be).
-            const contentHeight = layoutContainer.scrollHeight;
-            
-            // Get the actual height of the browser window.
-            const windowHeight = window.innerHeight;
+        let sentenceIndex = 0;
+        let charIndex = 0;
 
-            // If the content is taller than the window...
-            if (contentHeight > windowHeight) {
-                // ...calculate the precise scale factor needed to shrink it.
-                const scaleFactor = windowHeight / contentHeight;
-                
-                // Apply the scale transformation.
-                layoutContainer.style.transform = `scale(${scaleFactor})`;
+        // Function to type out a sentence character by character
+        function typeSentence() {
+            if (charIndex < sentences[sentenceIndex].length) {
+                // Add the asterisk only for the first character
+                dialogueElement.innerHTML = '* ' + sentences[sentenceIndex].substring(0, charIndex + 1);
+                charIndex++;
+                setTimeout(typeSentence, 60); // Adjust typing speed here (milliseconds)
+            } else {
+                // Wait for a bit before clearing and starting the next sentence
+                setTimeout(() => {
+                    charIndex = 0;
+                    sentenceIndex = (sentenceIndex + 1) % sentences.length; // Loop back to the start
+                    dialogueElement.innerHTML = '* ';
+                    typeSentence();
+                }, 2500); // Delay between sentences
             }
         }
 
-        // Run the function as soon as the page loads.
+        // This function will run when the page content is fully loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            // Attempt to play the audio. The .catch() prevents an error in the console if it's blocked.
+            backgroundAudio.play().catch(error => {
+                console.log("Audio autoplay was blocked by the browser. This is expected.");
+            });
+            // Start the typing effect
+            typeSentence();
+        });
+
+        function fitLayoutToScreen() {
+            layoutContainer.style.transform = 'scale(1)';
+            const contentHeight = layoutContainer.scrollHeight;
+            const windowHeight = window.innerHeight;
+            if (contentHeight > windowHeight) {
+                const scaleFactor = windowHeight / contentHeight;
+                layoutContainer.style.transform = `scale(${scaleFactor})`;
+            }
+        }
         window.addEventListener('load', fitLayoutToScreen);
-        
-        // Also run the function every time the browser window is resized.
         window.addEventListener('resize', fitLayoutToScreen);
     </script>
 
