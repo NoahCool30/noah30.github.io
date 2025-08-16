@@ -13,34 +13,59 @@
             font-family: 'VT323', monospace;
             margin: 0;
             background-color: black;
-            /* Allow vertical scrolling if content is too tall, but hide horizontal scrollbar */
-            overflow-y: auto;
-            overflow-x: hidden;
+            /* This is critical: it prevents the page itself from ever scrolling */
+            overflow: hidden;
         }
-        /* This container will hold our vertical stack of images */
-        .image-stack {
-            width: 100%;
+        /* This is the main layout container */
+        .shop-container {
+            /* Make the container fill the entire screen */
+            height: 100vh;
+            width: 100vw;
+            /* Use flexbox to stack the shop and textbox vertically */
+            display: flex;
+            flex-direction: column;
         }
-        /* Style for both images */
-        .full-width-img {
-            /* Force the image to take up the full width of the screen */
-            width: 100%;
-            /* Allow the height to adjust automatically to maintain aspect ratio */
-            height: auto;
-            /* Ensures images stack vertically without extra space */
-            display: block;
+        /* This is the container for the top image (the shop) */
+        .shop-image-area {
+            /* This makes the shop area take up all available space */
+            flex-grow: 1;
+            /* This is needed to handle the image sizing correctly */
+            position: relative;
+        }
+        /* This is the container for the bottom image (the textbox) */
+        .textbox-image-area {
+            /* Give the textbox a fixed height to maintain proportions */
+            flex-shrink: 0;
+            height: 180px; 
+            position: relative;
+        }
+        /* This style applies to both images */
+        .fit-image {
+            /* Position the image within its container */
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            /* Ensure the image scales down to fit, but never gets stretched or cropped */
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
         }
     </style>
 </head>
 <body>
 
-    <!-- Main container for the images -->
-    <div class="image-stack">
-        <!-- The shop image will always be 100% width -->
-        <img src="shop.png" alt="Spamton's Shop" class="full-width-img">
+    <!-- Main container for the layout -->
+    <div class="shop-container">
+        <!-- The shop image area -->
+        <div class="shop-image-area">
+            <img src="shop.png" alt="Spamton's Shop" class="fit-image">
+        </div>
         
-        <!-- The textbox image will also always be 100% width, placed directly below -->
-        <img src="textbox.png" alt="Dialogue Box" class="full-width-img">
+        <!-- The textbox image area -->
+        <div class="textbox-image-area">
+            <img src="textbox.png" alt="Dialogue Box" class="fit-image">
+        </div>
     </div>
 
     <!-- Hidden audio player that will attempt to autoplay and loop -->
