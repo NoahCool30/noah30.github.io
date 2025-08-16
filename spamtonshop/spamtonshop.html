@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale-1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>[[Hyperlink Blocked]]</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -12,22 +12,48 @@
         body {
             font-family: 'VT323', monospace;
             overflow: hidden; /* Prevents scrollbars from appearing */
+            margin: 0;
+        }
+        /* A robust CSS Grid layout for the entire page */
+        .shop-layout {
+            display: grid;
+            /* The top row (shop) takes up all available space. */
+            /* The bottom row (textbox) is fixed at 180px height. */
+            grid-template-rows: 1fr 180px;
+            height: 100vh;
+            width: 100vw;
+            background-color: black;
+        }
+        .shop-background-container {
+            /* This is the container for the shop image */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden; /* Prevents any overflow issues */
+            padding: 1rem; /* Adds some spacing around the image */
+        }
+        .textbox-container {
+            /* This is the container for the textbox image */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem; /* Adds some spacing around the image */
         }
     </style>
 </head>
-<body class="bg-black">
+<body>
 
-    <!-- Main container for positioning -->
-    <div class="relative h-screen w-screen">
+    <!-- Main container using the new grid layout -->
+    <div class="shop-layout">
 
-        <!-- Textbox container, absolutely positioned at the bottom -->
-        <div class="absolute bottom-0 left-0 right-0 h-[180px] flex justify-center items-center p-4 z-10">
-            <img src="textbox.png" alt="Dialogue Box" class="h-full w-auto max-w-4xl">
+        <!-- Top Grid Cell: Shop Background -->
+        <div class="shop-background-container">
+             <img src="shop.png" alt="Spamton's Shop" class="max-w-full max-h-full object-contain">
         </div>
 
-        <!-- Shop image container, absolutely positioned to fill the space ABOVE the textbox -->
-        <div class="absolute top-0 left-0 right-0 bottom-[180px] flex items-center justify-center p-4">
-             <img src="shop.png" alt="Spamton's Shop" class="max-w-full max-h-full object-contain">
+        <!-- Bottom Grid Cell: Textbox -->
+        <div class="textbox-container">
+            <img src="textbox.png" alt="Dialogue Box" class="h-full w-auto">
         </div>
 
     </div>
