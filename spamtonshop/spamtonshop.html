@@ -10,40 +10,34 @@
     <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
     <style>
         body {
-            background-image: url('shop.png');
-            background-color: #000000;
-            background-size: contain;
-            background-position: center;
-            background-repeat: no-repeat;
-            min-height: 100vh;
-            margin: 0;
             font-family: 'VT323', monospace;
             overflow: hidden; /* Prevents scrollbars from appearing */
         }
-
-        #textbox-container {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 90%;
-            max-width: 800px;
-            height: 150px;
-            background-image: url('textbox.png');
-            background-size: 100% 100%;
-            background-repeat: no-repeat;
-            padding: 20px 40px;
-            box-sizing: border-box;
-        }
-
     </style>
 </head>
-<body>
+<body class="bg-black">
 
-    <!-- The text box is positioned at the bottom of the screen -->
-    <div id="textbox-container">
-        <!-- The text, typing script, and audio have been removed as requested -->
+    <!-- The "Click to start" overlay has been removed. -->
+
+    <!-- Main container that organizes the shop and textbox -->
+    <div class="h-screen w-screen flex flex-col">
+        <!-- Shop image container -->
+        <div class="flex-grow flex items-center justify-center overflow-hidden">
+            <img src="shop.png" alt="Spamton's Shop" class="max-w-full max-h-full object-contain">
+        </div>
+        <!-- Textbox image container -->
+        <div class="flex-shrink-0 flex justify-center items-end p-4">
+            <img src="textbox.png" alt="Dialogue Box" class="w-full max-w-4xl">
+        </div>
     </div>
+
+    <!-- Hidden audio player that will attempt to autoplay and loop -->
+    <audio autoplay loop style="display:none;">
+        <source src="Dialtone.flac" type="audio/flac">
+        Your browser does not support the audio element.
+    </audio>
+
+    <!-- The script for the overlay has been removed. -->
 
 </body>
 </html>
