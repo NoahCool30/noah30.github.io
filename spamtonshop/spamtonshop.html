@@ -13,67 +13,71 @@
             font-family: 'VT323', monospace;
             margin: 0;
             background-color: black;
-            /* This is critical: it prevents the page itself from ever scrolling */
+            /* Hide scrollbars on the main page */
             overflow: hidden;
         }
 
-        /* This is the main container that will hold the entire layout.
-           It uses CSS Grid to create two rows. */
-        .grid-container {
-            display: grid;
-            /* The top row (shop) will take up all available space.
-               The bottom row (textbox) has a fixed height. */
-            grid-template-rows: 1fr 180px; 
-            height: 100vh; /* Fill the entire screen height */
-            width: 100vw;  /* Fill the entire screen width */
+        /* This container holds the entire visual layout */
+        #layout-container {
+            /* This will be used by JavaScript to scale the content down if it's too tall */
+            transform-origin: top center;
+            width: 100%;
         }
 
-        /* This is the container for the top image (the shop) */
-        .shop-area {
-            position: relative; /* Needed for the image positioning */
-        }
-
-        /* This is the container for the bottom image (the textbox) */
-        .textbox-area {
-            position: relative; /* Needed for the image positioning */
-        }
-
-        /* This style applies to BOTH images */
-        .fit-image {
-            /* Position the image in the center of its container */
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-
-            /* This is the key: the image will scale down to fit inside
-               its container without being stretched or cropped. */
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: contain;
+        /* This style applies to both images */
+        .full-width-img {
+            /* This is the part of the layout you liked: images always fill the width */
+            width: 100%;
+            height: auto;
+            display: block; /* Removes extra space below images */
         }
     </style>
 </head>
 <body>
 
-    <!-- Main container using the new grid layout -->
-    <div class="grid-container">
-        <!-- The shop image area (top row) -->
-        <div class="shop-area">
-            <img src="shop.png" alt="Spamton's Shop" class="fit-image">
-        </div>
-        
-        <!-- The textbox image area (bottom row) -->
-        <div class="textbox-area">
-            <img src="textbox.png" alt="Dialogue Box" class="fit-image">
-        </div>
+    <!-- Main container for the images that our script will control -->
+    <div id="layout-container">
+        <img src="shop.png" alt="Spamton's Shop" class="full-width-img">
+        <img src="textbox.png" alt="Dialogue Box" class="full-width-img">
     </div>
 
-    <!-- Hidden audio player that will attempt to autoplay and loop -->
+    <!-- Hidden audio player -->
     <audio autoplay loop style="display:none;">
         <source src="Dialtone.flac" type="audio/flac">
         Your browser does not support the audio element.
-    </agudio>
+    </audio>
+
+    <script>
+        // This script ensures the layout always fits on the screen without scrollbars.
+        
+        const layoutContainer = document.getElementById('layout-container');
+
+        function fitLayoutToScreen() {
+            // First, reset any scaling to measure the natural size.
+            layoutContainer.style.transform = 'scale(1)';
+
+            // Get the natural height of the content (how tall it *wants* to be).
+            const contentHeight = layoutContainer.scrollHeight;
+            
+            // Get the actual height of the browser window.
+            const windowHeight = window.innerHeight;
+
+            // If the content is taller than the window...
+            if (contentHeight > windowHeight) {
+                // ...calculate the precise scale factor needed to shrink it.
+                const scaleFactor = windowHeight / contentHeight;
+                
+                // Apply the scale transformation.
+                layoutContainer.style.transform = `scale(${scaleFactor})`;
+            }
+        }
+
+        // Run the function as soon as the page loads.
+        window.addEventListener('load', fitLayoutToScreen);
+        
+        // Also run the function every time the browser window is resized.
+        window.addEventListener('resize', fitLayoutToScreen);
+    </script>
 
 </body>
 </html>
